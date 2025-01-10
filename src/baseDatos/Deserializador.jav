@@ -43,15 +43,15 @@ public class Deserializador{
 
     public static void deserializarListas(){
 
-        //deserializar Estudiantes
-        //deserializar Grupos
-        //deserializar Horarios
-        //deserialziar Materias
-        //deserializar Profesores
-        //deserializar Salones
-        //deserializar Becas
-        //deserializar Coordinadores
-        //deserializar Usuarios
+        deserializar(Estudiante.getEstudiantes(), "Estudiantes");
+        deserializar(Grupo.getGruposTotales(), "Grupos");
+        deserializar(Horario.getHorariosTotales(), "Horarios");
+        deserializar(Materia.materiasTotales(), "Materias");
+        deserializar(Coordinador.getCoordinadoresTotales(), "Coordinadores");
+        deserializar(Salon.salones, "Salones");
+        deserializar(Beca.getBecas(), "Becas");
+        deserializar(Profesor.getProfesores(), "Profesores");
+        deserializar(Usuario.getUsuarios(), "Usuarios");
 
     }
 }
