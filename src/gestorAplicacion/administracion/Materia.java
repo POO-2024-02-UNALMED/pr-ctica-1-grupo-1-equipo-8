@@ -13,5 +13,12 @@ public class Materia {
     public static ArrayList<Materia> materiasTotales = new ArrayList<Materia>();
     private String abreviatura;
 
-    public Materia();
+    public Materia( String nombre, int codigo, String descripcion,int creditos,String facultad);{
+        this.nombre=nombre;
+        this.codigo=codigo;
+        this.descripcion=descripcion;
+        this.creditos=creditos;
+        
+
+    }
 ;}
