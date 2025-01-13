@@ -1,6 +1,6 @@
 // Tomas Velasquez
 
-package gestorAplicacion.administracion;
+package ges torAplicacion.administracion;
 
 import java.io.Serializable;
 import java.util.ArrayList;
