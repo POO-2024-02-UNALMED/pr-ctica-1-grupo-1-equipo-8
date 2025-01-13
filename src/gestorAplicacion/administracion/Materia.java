@@ -84,6 +84,34 @@ public class Materia {
             grupoCamb.setNumero(nGrupoAnt-1);
         }
     }
-        
-
+    public void agregarGrupo(int numero, Profesor profesor, ArrayList<String> horario, int cupos, Salon salon) {
+    	boolean dispSalon = true;
+    	boolean dispProfesor = true;
+    	boolean daMateria = profesor.daMateria(this.nombre);
+    	
+    	for(String hor:horario) {
+    		dispProfesor = profesor.getHorario().comprobarDisponibilidad(hor);
+    		dispSalon = salon.getHorario().comprobarDisponibilidad(hor);
+    		
+    		if(!dispProfesor||!dispSalon) {
+    			break;
+    		}
+    	}
+        if(dispProfesor&&dispSalon&&daMateria) {
+    		Grupo nGrupo = crearGrupo(numero,profesor,horario,cupos,salon);
+    		this.cupos += cupos;
+    		salon.getHorario().ocuparHorario(horario, nGrupo);
+    		profesor.vincularGrupo(nGrupo);}
+        }
+    public Grupo buscarGrupoDeEstudiante(Estudiante estudiante){
+          for (Grupo grupo: this.grupos){
+            for (Estudiante e: grupo.getEstudiantes()){
+                 if (e == estudiante){
+                     return grupo;
+                     }
+                    }
+                }
+                return null;
+        }
+    
 ;}
