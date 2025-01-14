@@ -60,6 +60,23 @@ public class Grupo implements Serializable{
 	public static Grupo buscarGrupo(Materia materia, Grupo grupo){
 		int indicei = 0;
 		int indicej = 0;
-		
+		for (int i = 0; i<Materia.getMateriasTotales().size(); i++){
+			Materia materia = Materia.getMateriasTotales().get(i);
+			if (materia.getNombre().equals(materiaE.getNombre())){
+				indicei = i;
+				for (int j = 0; j<materia.getGrupos().size(); j++){
+					Grupo grupo = materia.getGrupos().get(j);
+					if (grupo.getNumero() == grupoE.getNumero()){
+						indicej = j;
+						break;
+					}
+				}
+			}
+		}
+		return Materia.getMateriasTotales().get(indicei).getGrupos().get(indicej);
+	}
+	public void agregarEstudiante(Estudiante estudiante){
+		this.estudiantes.add(estudiante);
+		cupos--;
 	}
 }
