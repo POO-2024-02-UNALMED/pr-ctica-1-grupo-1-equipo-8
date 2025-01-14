@@ -33,5 +33,33 @@ public class Grupo implements Serializable{
 		this.profesor=profesor;
 		Grupo.gruposTotales.add(this);
 	  } 	
-	
+	// Metodos
+
+	public String mostrarInformacionGrupo(){
+		String retorno = "Numero del grupo: "+this.numero+", Profesor: "+this.profesor+ ", Horario: "+this.horario+", Cupos: "+this.cupos+"Salon: "+this.salon;
+		return retorno;
+	}
+	public String mostrarEstudiantes(){
+		String nombres = "";
+		for (Estudiante estudiante : estudiantes){
+			nombres += estudiante +" \n";
+		}
+		return nombres;
+	}
+
+	public boolean existenciaEstudiante(Estudiante estudiante){
+		for( int i = 0; i < this.estudiantes.size(); i++){
+			if (this.estudiantes.get(j)) //Hacen falta metodos de la clase estudiante para completarlo
+		}
+	}
+	public void eliminarEstudiante(Estudiante estudiante){
+		for (i = 0; i < this.estudiantes.size(); i++){
+			// Completar metodos de la clase estudiante
+		}
+	}
+	public static Grupo buscarGrupo(Materia materia, Grupo grupo){
+		int indicei = 0;
+		int indicej = 0;
+		
+	}
 }
