@@ -8,8 +8,10 @@ import java.io.Serializable;
 
 
 public class Beca implements Serializable{
-    //atributos de la clase
+    
+    //atributo que permite la serializacion de objetos de esta clase
     private static final long serialversionUID=1L;
+    //atributos de la clase
     private int cupos;
     private String convenio;
     private int creditosInscritosRequeridos;
@@ -70,7 +72,7 @@ public class Beca implements Serializable{
         return estratoMinimo;
     }
 
-    public void setEstratoMinimo(){
+    public void setEstratoMinimo(int estratoMinimo){
         this.estratoMinimo=estratoMinimo;
     }
 
