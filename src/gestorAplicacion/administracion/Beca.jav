@@ -1,16 +1,30 @@
 package gestorAplicacion.administracion;
 import java.util.Arraylist;
+import java.io.Serializable;
+
+
+public class Beca implements Serializable;
+    private static final long serialversionUID=1L;
+    private int cupos;
+    private String convenio;
+    private int creditosInscritosRequeridos;
+    private int ayudaEconomica;
+    private int estratoMinimo;
+
+
 
 //constructor
-public Beca(int cupos, int creditosInscritosRequeridos, int ayudaEconomica, int estratoMinimo)
+public Beca(int cupos, int creditosInscritosRequeridos, int ayudaEconomica, int estratoMinimo, String convenio){
 this.cupos= cupos;
 this.creditosInscritosRequeridos= creditosInscritosRequeridos;
 this.ayudaEconomica= ayudaEconomica;
 this.estratoMinimo= estratoMinimo;
+this.convenio= convenio;
+}   
 
 //set y get
-public int getCupos() {
-    return cupos;
+public String getConevnio(){
+    return convenio;
 }
 
 public void setCupos(int cupos){
