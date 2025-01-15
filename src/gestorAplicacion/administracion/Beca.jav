@@ -1,9 +1,14 @@
+//Lina
+
+
 package gestorAplicacion.administracion;
+
 import java.util.Arraylist;
 import java.io.Serializable;
 
 
 public class Beca implements Serializable{
+    //atributos de la clase
     private static final long serialversionUID=1L;
     private int cupos;
     private String convenio;
@@ -13,8 +18,9 @@ public class Beca implements Serializable{
     private double promedioRequerido;
     private double avanceRequerido;
     private boolean necesitaRecomendacion;
-    private static Arraylist<Beca> becas= new Arraylist<Beca>();
-    //atributos de la clase
+    private static ArrayList<Beca> becas= new ArrayList<Beca>();
+    //lista objetos tipo Beca
+    
 
 
     //constructor
@@ -30,9 +36,10 @@ public class Beca implements Serializable{
         this.avanceRequerido=avanceRequerido;
         this.necesitaRecomendacion=necesitaRecomendacion;
         becas.add(this);
+        //agrega el objeto a becas
     }   
 
-
+    //metodos
     //set y get
      
     public int getCupos(){
@@ -99,13 +106,16 @@ public class Beca implements Serializable{
         this.necesitaRecomendacion=necesitaRecomendacion;
     }    
 
-    public static Arraylist<Beca> getBecas(){
-        return new Arraylist<>(becas);
+    //metodo para obtener copia de la lista de becas
+    public static ArrayList<Beca> getBecas(){
+        return new ArrayList<>(becas);
     }    
+    //copia de la lista Beca
 
+    //metodo para eliminar una beca de la lista
     public static void eliminarBeca(Beca beca){
-        if (becas.contains(beca)){
             becas.remove(beca);
-        }
+       
     }
+    //elimina objeto beca pasado como argumento si se encuentra en la lista
 }
