@@ -10,16 +10,19 @@ public class Beca implements Serializable;
     private int creditosInscritosRequeridos;
     private int ayudaEconomica;
     private int estratoMinimo;
+    private double promedioRequerido;
+
 
 
 
 //constructor
-public Beca(int cupos, int creditosInscritosRequeridos, int ayudaEconomica, int estratoMinimo, String convenio){
+public Beca(int cupos, int creditosInscritosRequeridos, int ayudaEconomica, int estratoMinimo, String convenio, promedioRequerido,){
 this.cupos= cupos;
 this.creditosInscritosRequeridos= creditosInscritosRequeridos;
 this.ayudaEconomica= ayudaEconomica;
 this.estratoMinimo= estratoMinimo;
 this.convenio= convenio;
+this.promedioRequerido= promedioRequerido;
 }   
 
 //set y get
