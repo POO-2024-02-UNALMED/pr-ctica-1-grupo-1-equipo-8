@@ -39,13 +39,7 @@ public class Grupo implements Serializable{
 		String retorno = "Numero del grupo: "+this.numero+", Profesor: "+this.profesor+ ", Horario: "+this.horario+", Cupos: "+this.cupos+"Salon: "+this.salon;
 		return retorno;
 	}
-	public String mostrarEstudiantes(){
-		String nombres = "";
-		for (Estudiante estudiante : estudiantes){
-			nombres += estudiante +" \n";
-		}
-		return nombres;
-	}
+	
 
 	public boolean existenciaEstudiante(Estudiante estudiante){
 		for( int i = 0; i < this.estudiantes.size(); i++){
