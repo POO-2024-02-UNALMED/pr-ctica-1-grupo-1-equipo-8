@@ -13,10 +13,12 @@ public class Beca implements Serializable{
     private double promedioRequerido;
     private double avanceRequerido;
     private boolean necesitaRecomendacion;
-
+    private static Arraylist<Beca> becas= new Arraylist<Beca>();
+    //atributos de la clase
 
 
     //constructor
+
     public Beca(int cupos, int creditosInscritosRequeridos, int ayudaEconomica, int estratoMinimo, 
             String convenio, double promedioRequerido, double avanceRequerido, boolean necesitaRecomendacion){
         this.cupos= cupos;
@@ -27,7 +29,9 @@ public class Beca implements Serializable{
         this.promedioRequerido= promedioRequerido;
         this.avanceRequerido=avanceRequerido;
         this.necesitaRecomendacion=necesitaRecomendacion;
+        becas.add(this);
     }   
+
 
     //set y get
      
@@ -94,4 +98,14 @@ public class Beca implements Serializable{
     public void setNecesitaRecomendacion(boolean necesitaRecomendacion){
         this.necesitaRecomendacion=necesitaRecomendacion;
     }    
+
+    public static Arraylist<Beca> getBecas(){
+        return new Arraylist<>(becas);
+    }    
+
+    public static void eliminarBeca(Beca beca){
+        if (becas.contains(beca)){
+            becas.remove(beca);
+        }
+    }
 }
