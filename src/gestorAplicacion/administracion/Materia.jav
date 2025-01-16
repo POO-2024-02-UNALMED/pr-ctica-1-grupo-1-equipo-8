@@ -139,10 +139,7 @@ public class Materia implements Serializable {
         } 
     
         public static boolean comprobarPrerrequisitos(Estudiante estudiante,Materia materia){
-            /*
-             * Comprueba si un estudiante cumple los pre-requisitos de una materia
-             */
-            
+        
             ArrayList<Materia> materiasVistas = new ArrayList<Materia>();
             
             for (Grupo pGrupo:estudiante.getGruposVistos()){
@@ -289,6 +286,3 @@ public class Materia implements Serializable {
             this.abreviatura = abreviatura;
         }
     }
-
-    
-;
