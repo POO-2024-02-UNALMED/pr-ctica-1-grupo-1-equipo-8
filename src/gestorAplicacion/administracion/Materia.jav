@@ -2,7 +2,7 @@ package gestorAplicacion.administracion;
 import java.util.ArrayList;
 import gestorAplicacion.administracion.*;
 import java.io.Serializable;
-public class Materia {
+public class Materia implements Serializable {
     private static final long serialVersionUID=1L;
     private String nombre;
     private final int codigo;
@@ -113,5 +113,182 @@ public class Materia {
                 }
                 return null;
         }
+    public static int buscarMateria(String nombre, int codigo){
+         for (int i = 0; i < materiasTotales.size(); i++){
+            if (materiasTotales.get(i).getNombre().equals(nombre) && materiasTotales.get(i).getCodigo() == codigo){
+                return i;
+            }
+        }
+        return -1;
+    }
     
-;}
+    public static boolean puedeVerMateria(Estudiante estudiante,Grupo grupo){
+        if (!(estudiante.getCreditos()+grupo.getMateria().getCreditos()<=Coordinador.getLimitesCreditos())){
+            return false;
+        }
+        if (!estudiante.getHorario().comprobarDisponibilidad(grupo.getHorario())){
+            return false;
+        }
+        if (grupo.getCupos()==0){
+            return false;
+        }
+        if (!comprobarPrerrequisitos(estudiante,grupo.getMateria())){
+                return false;
+            }
+            return true;
+        } 
+    
+        public static boolean comprobarPrerrequisitos(Estudiante estudiante,Materia materia){
+            /*
+             * Comprueba si un estudiante cumple los pre-requisitos de una materia
+             */
+            
+            ArrayList<Materia> materiasVistas = new ArrayList<Materia>();
+            
+            for (Grupo pGrupo:estudiante.getGruposVistos()){
+                materiasVistas.add(pGrupo.getMateria());
+            }
+    
+            for (Materia pMateria:materia.getPrerrequisitos()){
+                boolean flag = false;
+                for(Materia pVistas:materiasVistas){
+                    if (pMateria.getCodigo()==pVistas.getCodigo()){
+                        flag =true;
+                        break;
+                    }
+                }
+                if(!flag){
+                    return false;
+                }
+            }
+            return true;
+        }
+    
+        public void hacerAbreviatura(String nombre){
+            String abreviatura = "";
+    
+            if (nombre.length() <= 13){
+                this.abreviatura = nombre;
+            }
+            else{
+                String[] palabras = nombre.split("\\s");
+                for (String palabra : palabras){
+                    if (palabra.length() >= 3){
+                        abreviatura += palabra.substring(0, 3) + " ";
+                    }
+                    else{
+                        abreviatura += palabra.substring(0, palabra.length()) + " ";
+                    }
+                }
+                if (abreviatura.length() <= 13){
+                    this.abreviatura = abreviatura;
+                }
+                else{
+                    this.abreviatura = abreviatura.substring(0, 13);
+                }
+            }
+        }
+        
+        public String mostrarGrupos() {
+            String retorno = "";
+            int i = 1;
+            for(Grupo grupo:this.grupos) {
+                retorno += (i++)+". "+grupo.getNumero()+".\n";
+            }
+            return retorno;
+        }
+        
+        public static Materia encontrarMateria(String nombre) {
+            Materia mater = null;
+            for(Materia materia:Materia.getMateriasTotales()) {
+                if(materia.getNombre().equals(nombre)) {
+                    mater = materia;
+                }
+            }
+            return mater;
+        }
+        
+        public static String mostrarMaterias() {
+            String retorno = "";
+            int i = 1;
+            for(Materia materia:Materia.materiasTotales) {
+                retorno += (i++)+". "+materia.nombre+".\n";
+            }
+            return retorno;
+        }
+    
+        public String getDescripcion() {
+            return descripcion;
+        }
+    
+        public void setDescripcion(String descripcion) {
+            this.descripcion = descripcion;
+        }
+    
+        public String getNombre() {
+            return this.nombre;
+        }
+    
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+        
+        public int getCodigo() {
+            return this.codigo;
+        }
+        
+        public int getCreditos() {
+            return this.creditos;
+        }
+    
+        public void setCreditos(int creditos) {
+            this.creditos = creditos;
+        }
+    
+        public String getFacultad() {
+            return this.facultad;
+        }
+    
+        public void setFacultad(String facultad) {
+            this.facultad = facultad;
+        }
+    
+        public int getCupos() {
+            return this.cupos;
+        }
+    
+        public void setCupos(int cupos) {
+            this.cupos = cupos;
+        }
+    
+        public ArrayList<Materia> getPrerrequisitos() {
+            return this.prerrequisitos;
+        }
+    
+        public void setPrerrequisitos(ArrayList<Materia> prerrequisitos) {
+            this.prerrequisitos = prerrequisitos;
+        }
+    
+        public ArrayList<Grupo> getGrupos() {
+            return this.grupos;
+        }
+    
+        public void setGrupos(ArrayList<Grupo> grupos) {
+            this.grupos = grupos;
+        }
+    
+        public static ArrayList<Materia> getMateriasTotales(){
+            return materiasTotales;
+        }
+    
+        public String getAbreviatura() {
+            return abreviatura;
+        }
+    
+        public void setAbreviatura(String abreviatura) {
+            this.abreviatura = abreviatura;
+        }
+    }
+
+    
+;
