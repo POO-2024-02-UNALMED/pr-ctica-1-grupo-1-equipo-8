@@ -42,15 +42,27 @@ public class Grupo implements Serializable{
 	
 
 	public boolean existenciaEstudiante(Estudiante estudiante){
-		for( int i = 0; i < this.estudiantes.size(); i++){
-			if (this.estudiantes.get(j)) //Hacen falta metodos de la clase estudiante para completarlo
+		for (int j=0;j<this.estudiantes.size();j++){
+		  if (this.estudiantes.get(j).getId() == estudiante.getId()){
+			return true;
+		  }
 		}
-	}
+		return false;
+	  }
 	public void eliminarEstudiante(Estudiante estudiante){
-		for (i = 0; i < this.estudiantes.size(); i++){
-			// Completar metodos de la clase estudiante
+		int indice = -1;
+		for (int i=0;i<this.estudiantes.size();i++){
+			if (this.estudiantes.get(i).getNombre().equals(estudiante.getNombre())){
+					indice = i;
+					this.cupos++;
+					estudiante.eliminarGrupo(this);
+					break;
+			}
 		}
-	}
+		if (indice != -1){
+			this.estudiantes.remove(indice);
+		}
+    }
 	public static Grupo buscarGrupo(Materia materia, Grupo grupo){
 		int indicei = 0;
 		int indicej = 0;
