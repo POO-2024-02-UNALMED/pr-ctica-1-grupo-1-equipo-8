@@ -68,5 +68,9 @@ public class Estudiante extends Usuario implements Serializable{
         }
         return -1;
     }
+    // Agrego metodo getEstudiantes (Sergio)
+    public static ArrayList<Estudiante> getEstudiantes() {
+        return Estudiante.estudiantes;
+    }
 
 }
