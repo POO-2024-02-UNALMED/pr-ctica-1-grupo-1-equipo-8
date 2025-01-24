@@ -1,4 +1,4 @@
-package uiMain;
+package UiMain;
 
 import java.util.Scanner;
 

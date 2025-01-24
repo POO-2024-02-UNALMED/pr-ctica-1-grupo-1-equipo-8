@@ -1,4 +1,4 @@
-package uiMain;
+package UiMain;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -44,6 +44,49 @@ public interface Interfaz{
 
     public static void imprimirHorarioGenerado(ArrayList<Materia> listaAGenerar){
 
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Materia> listaMateriasAGenerar = new ArrayList<Materia>();
+
+        System.out.println("Indique uno por uno los números de las materias que quiere incluir en su horario, tenga en cuenta que las primeras que envíe tendrán mayor prioridad, evite repetir materias para evitar errores y envíe 0 cuando termine");
+
+        boolean condicion = true;
+        while(condicion){
+            System.out.print("-> ");
+            int opt3 = scanner.nextInt();
+            scanner.nextLine();
+            if (opt3 != 0){
+                listaMateriasAGenerar.add(listaAGenerar.get(opt3-1));
+            }
+            else{
+                condicion = false;
+            }
+        }
+
+        boolean ok = true;
+        String materiaVacia = "";
+
+        for (Materia pMateria: listaMateriasAGenerar){
+            if(pMateria.getGrupos().size() == 0){
+                ok = false;
+                materiaVacia = pMateria.getNombre();
+                break;
+            }
+        }
+        if (ok){
+            Object[] informacion = Coordinador.crearHorario(listaMateriasAGenerar);
+
+            if ((boolean)informacion[0]){
+                Horario pHorario = (Horario)informacion[1];
+                System.out.println(pHorario.mostrarHorario());
+                asignacionDeHorarioGenerado(pHorario);
+            }
+            else{
+                System.out.println("No fue posible generar la horario, ya que " + ((Materia)informacion[2]).getNombre() + " es un obstáculo");
+            }
+        } else{
+            System.out.println("No se pudo generar el horario, ya que la materia " + materiaVacia + " no tiene ningún grupo registrado")
+        }
+
     }
 
     public static void fusionImpresiones(ArrayList<Materia> listaObjetivo){
@@ -59,8 +102,91 @@ public interface Interfaz{
     }
 
     public static void matricularMateria(){
-
         //Seleccionar estudiante
+        Scanner scanner = new Scanner(System.in);
+        boolean salir = false;
+
+        while(salir == false){
+            Boolean invalido = false;
+            System.out.println("Desea buscar al estudiante mediante una lista o mediante su ID o su nombre?");
+            System.out.println("Ingrese la opción deseada: \n1- Lista de estudiantes disponibles\2- Buscar al estudainte");
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            if(opcion==1){
+                System.out.println("Lista de estudiantes disponibles para matricular: ");
+                ArrayList<Estudiante> totalEstudiantes = new ArrayList<Estudiante>();
+                for(Estudiante estudiante: Estudiante.getEstudiantes()){
+                    if(estudiante.isMatriculaPagada() == false){
+                        continue;
+                    }
+                    if(estudiante.getCreditos() == Coordinador.getLimitesCreditos()){
+                        continue;
+                    }
+                    totalEstudiantes.add(estudiante);
+                    System.out.println(totalEstudiantes.size()+ " Nombre: "+estudiante.getNombre() + 
+                    " ID: "+estudiante.getId());
+                }
+
+                System.out.println("Por favor ingrese el número correspondiente al estudiante que desea seleccionar: ");
+                int opcion2 = scanner.nextInt();
+                scanner.nextLine();
+                if( opcion2 <= totalEstudiantes.size() && opcion2>=1){
+                    Estudiante seleccionado = totalEstudiantes.get(opcion2-1);
+                    System.out.println("Estudiante seleccionado, nombre: "+seleccionado.getNombre() + " ID: "+seleccionado.getID());
+                    matricularMateriaParte2(seleccionado);
+                    salir = true;
+                } else{
+                    System.out.println("Opción invalida");
+                    invalido = true;
+                }
+            } else if(opcion == 2){
+                System.out.println("Por favor ingrese el nombre del estudiante: ");
+                String nombre = scanner.nextLine();
+                System.out.println("Por favor ingrese el ID del estudiante");
+                long id = 0;
+                String idPrueba = scanner.nextLine();
+
+                try{
+                    int index = Estudiante.buscarEstudiante(nombre, id);
+                    id = Long.parseLong(idPrueba);
+                    
+                    if(index == -1){
+                        System.out.println("Estudiante no encontrado");
+                        invalido = true;
+                    }else{
+                        Estudiante seleccionado = Estudiante.getEstudiantes().get(index);
+                        if(seleccionado.isMatriculaPagada() == false){
+                            System.out.println("La matricula del estudiante no está pagada");
+                            invalido = true;
+                        }else if (seleccionado.getCreditos() >= Coordinador.getLimitesCreditos()){
+                            System.out.println("El estudiante no puede matricular más materias");
+                            invalido = true;
+                        }else{
+                            System.out.println("Estudiante seleccionado, nombre: " + seleccionado.getNombre() + 
+                            " ID: "+ seleccionado.getId());
+                            matricularMateriaParte2(seleccionado);
+                            salir = true;
+                        }
+                    }
+                } catch(NumberFormatException e){
+                    System.out.println("Opción invalida");
+                    invalido = true;
+                }
+            } else{
+                System.out.println("Pción invalida");
+                invalido = true;
+            }
+            if (invalido){
+                System.out.println("Desea intentarlo otra vez o desea salir?");
+                System.out.println("Ingrese la opción deseada: \n1- Intentarlo otra vez\n2- Salir");
+                int opcion3 = scanner.nextInt();
+                scanner.nextLine();
+                if (opcion3 != 1){
+                    salir = true;
+                }
+            }
+        }
 
     }
 
@@ -89,8 +215,18 @@ public interface Interfaz{
     }
 
     public static boolean existenciaUsuario(String nombre){
-
         //verificar si el usuario existe
+
+        boolean existe = false;
+
+        for(Usuario usuario: Usuario.getUsuariosTotales()){
+            if(usuario.getNombre() == nombre){
+                existe = true;
+                break;
+            }
+        }
+
+        return existe;
 
     }
 
