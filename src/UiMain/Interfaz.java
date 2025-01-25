@@ -29,7 +29,16 @@ public interface Interfaz {
             }
         }
 
-        return listaFiltrada
+
+        else if(opcionFiltro==3){
+            for (Materia pMateria:Materia.getMateriasTotales()){
+                if(Integer.toString(pMateria.getCodigo()).contains(filtro)){
+                    listaFiltrada.add(pMateria);
+                }
+            }
+        }
+
+        return listaFiltrada;
     }
 
     // Tomas Velasquez
@@ -459,6 +468,17 @@ public interface Interfaz {
     }
 
     public static void matricularMateriaParte4(Estudiante estudiante, Grupo grupo) {
+        ArrayList<Materia> materiasInscritas= new ArrayList<Materia>(estudiante.getMaterias());
+        materiasInscritas.add(grupo.getMateria());
+        grupo.agregarEstudiante(estudiante);
+        grupo.getMateria().setCupos(grupo.getMateria().getCupos()-1);
+        grupo.setCupos(grupo.getCupos(-1));
+        ArrayList<Grupo> gruposInscritos= new ArrayList<Grupo>(estudiante.getGrupos());
+        gruposInscritos.add(grupo);
+        estudiante.setGrupos(gruposInscritos);
+        estudiante.setCreditos(estudiante.getCreditos()+grupo.getMateria().getCreditos());
+        estudiante.setMaterias(materiasInscritas);
+
 
         // matricularle al estudiante un grupo especifico
 
