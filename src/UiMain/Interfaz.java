@@ -92,14 +92,94 @@ public interface Interfaz {
     }
 
     public static void fusionImpresiones(ArrayList<Materia> listaObjetivo) {
+        if (listaObjetivo.size()!=0){
+            imprimirListaPorConsola(listaObjetivo);
+            imprimirHorarioGenerado(listaObjetivo);
+        }
+        else{
+            System.out.println("Ningun elemento ha sido encontrado con el filtro dado");
+        }
 
     }
 
     public static void asignacionDeHorarioGenerado(Horario horario) {
+        Scanner scanner=new Scanner(System.in);
 
-    }
+        System.out.println("Desea Conservar el horario?\n1. Si\n2. No");
+        int opt2=scanner.nextInt();
+        scanner.nextLine();
+        if (opt2==1){
+            System.out.println("Escoja un estudiante: ");
+            ArrayList<Estudiante> estudiantesDisponibles = new ArrayList<>();
+            int con=1;
+            for (Estudiante pEstudiante : Estudiante.getEstudiantes()){
+                if(pEstudiante.isMatriculaPagada()){
+                    estudiantesDisponibles.add(pEstudiante);
+                    System.out.printf("%-3d %-40s %-4s %-12d%n",con++,pEstudiante.getNombre(),"ID:",pEstudiante.getId());
+                }
+            }
 
+            System.out.print("Eleccion: -> ");
+            int opt3=scanner.nextInt();
+            scanner.nextLine();
+
+            Estudiante seleccionEstudiante = estudiantesDisponibles.get(opt3-1);
+            Horario tempHorario = seleccionEstudiante.getHorario();
+            seleccionEstudiante.setHorario(new Horario());
+
+            boolean flag = true;
+            for (Grupo pGrupo:horario.getGrupoContenidos()){
+                if (!Materia.puedeVerMateria(seleccionEstudiante, pGrupo)){
+                    flag = false;
+                    break;   
+                } 
+            }
+
+            boolean mens=false;
+            String nMateria="";
+            for (Grupo pGrupo:seleccionEstudiante.getGruposVistos()){
+                for (Grupo pGrupo1:horario.getGrupoContenidos()){
+                    if (pGrupo.getMateria().getCodigo()==pGrupo1.getMateria().getCodigo()){
+                        flag = false;
+                        mens = true;
+                        nMateria = pGrupo.getMateria().getNombre();
+                        break;   
+                    } 
+                }
+            }
+                
+
+            if (flag){
+                seleccionEstudiante.setHorario(horario);
+                seleccionEstudiante.desmatricularMaterias();
+                for (Grupo pGrupo:horario.getGrupoContenidos()){
+                    matricularMateriaParte4(seleccionEstudiante, pGrupo);
+                }
+                System.out.println("Horario asignado con exito al estudiante "+seleccionEstudiante.getNombre());}
+                else{
+                seleccionEstudiante.setHorario(tempHorario);
+                System.out.println("No es posible asignar el horario, el estudiante "+seleccionEstudiante.getNombre()+" no cumple los Pre-requisitos");
+                if(mens){
+                    System.out.println("o ya vio y aprobo una materia, dicha materia puede ser: "+nMateria);
+                }
+            }
+
+
+        }
+        else{
+            System.out.println("Horario descartado");}
+        }
     public static void mostrarBecas() {
+        int i = 1;
+        for (Beca beca: Beca.getBecas()){
+            String a = beca.getConvenio();
+            System.out.println(i +". "+ a + ".");
+            i += 1;
+            System.out.println("    Cupos disponibles: " + beca.getCupos()+".");
+            System.out.println("    Estrato maximo para acceder: " + beca.getEstratoMinimo()+".");
+            System.out.println("    Creditos inscritos requeridos: " + beca.getCreditosInscritosRequeridos()+".");
+
+        }
 
     }
 
@@ -387,6 +467,20 @@ public interface Interfaz {
     public static long generarId() {
 
         // un numero random entre 100000 y 999999
+        int min = 10000;
+    	int max = 99999;
+    	int id;
+    	boolean existe = false;
+    	do {
+    		id = new Random().nextInt(max-min)+min;
+    		for (Usuario usuario:Usuario.getUsuariosTotales()) {
+    			if (usuario.getId()==id) {
+    				existe=true;
+    				break;
+    			}
+    		}
+    	}while(existe);
+    	return id;
 
     }
 
@@ -409,18 +503,43 @@ public interface Interfaz {
     public static boolean existenciaId(long id) {
 
         // verificar si el id existe
+        boolean exist = false;
+    	for (Usuario usuario:Usuario.getUsuariosTotales()) {
+    		if (usuario.getId()==id) {
+    			exist = true;
+    			break;
+    		}
+    	}
+    	return exist;
 
     }
 
     public static Usuario encontrarUsuario(long id) {
-
         // encontrar el usuario
+        Usuario encontrado = null;
+    	for (Usuario usuario:Usuario.getUsuariosTotales()) {
+    		if (usuario.getId()==id) {
+    			encontrado = usuario;
+    		}
+    	}
+    	return encontrado;
+
 
     }
 
     public static boolean verificarPw(Usuario usuario, String pw) {
 
         // verificar si la contraseña es correcta
+        int i = 1;
+        for (Beca beca: Beca.getBecas()){
+            String a = beca.getConvenio();
+            System.out.println(i +". "+ a + ".");
+            i += 1;
+            System.out.println("    Cupos disponibles: " + beca.getCupos()+".");
+            System.out.println("    Estrato maximo para acceder: " + beca.getEstratoMinimo()+".");
+            System.out.println("    Creditos inscritos requeridos: " + beca.getCreditosInscritosRequeridos()+".");
+
+        }
 
     }
 
