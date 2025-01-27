@@ -1,23 +1,22 @@
-package uiMain;
+package UiMain;
 
-import java.util.Scanner;
-
-import javax.management.MBeanTrustPermission;
-
-import gestorAplicacion.administracion.*;
-import gestorAplicacion.usuario.*;
-
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import baseDatos.Serializador;
 import baseDatos.Deserializador;
+import baseDatos.Serializador;
+import gestorAplicacion.administracion.Beca;
+import gestorAplicacion.administracion.Grupo;
+import gestorAplicacion.administracion.Materia;
+import gestorAplicacion.administracion.Salon;
+import gestorAplicacion.usuario.Coordinador;
+import gestorAplicacion.usuario.Estudiante;
+import gestorAplicacion.usuario.Profesor;
+import gestorAplicacion.usuario.Usuario;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main implements Interfaz{
     public static void main(String[] args){
         Deserializador.deserializarListas();
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         Boolean continuar=true;
         Boolean logueado=false;
         System.out.println("Bienvenido a este dolor de cabeza");
@@ -26,7 +25,7 @@ public class Main implements Interfaz{
         while(!logueado){
             Scanner scanner2 = new Scanner(System.in);
             System.out.println("\n Como desea ingresar?: \n1. Crear un nuevo usuario. \n2. Ingresar con un usuario existente.");
-            int opcion_login = scanner.nextInt();
+            int opcion_log = scanner.nextInt();
             scanner.nextLine();
             if(opcion_log==1){
                 String nomb;
@@ -73,7 +72,7 @@ public class Main implements Interfaz{
         		long id = Interfaz.generarId();
         		usuario = new Coordinador(facul,id,nomb,cont);
         		System.out.println("Se ha creado un nuevo usuario a nombre de "+nomb+" con el id "+id+" asignado.\nRecuerde que este id sera con el que inicie sesion en este usuario de ahora en adelante");
-        		logueado=true
+        		logueado=true;
             }
             else if(opcion_log==2){
                 Scanner scanner3 = new Scanner(System.in);
