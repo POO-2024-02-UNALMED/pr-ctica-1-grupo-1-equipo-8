@@ -71,7 +71,7 @@ public class Estudiante extends Usuario implements Serializable{
 
     public void eliminarMateria(Materia materia){
         this.materias.remove(materia);
-        this.creditos -= materia.getCreditos();;
+        this.creditos -= materia.getCreditos();
     }
 
     public void eliminarGrupo(Grupo grupo){
@@ -136,7 +136,7 @@ public class Estudiante extends Usuario implements Serializable{
     }
 
     public boolean buscarMateriaEnInscritas(String nombre, int codigo){
-        for (Materia materia : this.,materias){
+        for (Materia materia : this.materias){
             if (materia.getNombre().equals(nombre) && materia.getCodigo()==codigo){
                 return true;
             }

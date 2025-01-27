@@ -44,10 +44,10 @@ public interface Interfaz {
     // Tomas Velasquez
     public static void imprimirListaPorConsola(ArrayList<Materia> listaAMostrar) {
         int con = 1;
-        System.out.println("%-3s %-60s %-45s %-10s%n", "Num", "Nombre", "Facultad", "Codigo");
+        System.out.printf("%-3s %-60s %-45s %-10s%n", "Num", "Nombre", "Facultad", "Codigo");
 
         for (Materia pMateria : listaAMostrar) {
-            System.out.println("%-3s %-60s %-45s %-10s%n", con, pMateria.getNombre(), pMateria.getFacultad(),
+            System.out.printf("%-3s %-60s %-45s %-10s%n", con, pMateria.getNombre(), pMateria.getFacultad(),
                     pMateria.getCodigo());
             con++;
         }
@@ -95,7 +95,7 @@ public interface Interfaz {
                 System.out.println("No fue posible generar la horario, ya que " + ((Materia)informacion[2]).getNombre() + " es un obstáculo");
             }
         } else{
-            System.out.println("No se pudo generar el horario, ya que la materia " + materiaVacia + " no tiene ningún grupo registrado")
+            System.out.println("No se pudo generar el horario, ya que la materia " + materiaVacia + " no tiene ningún grupo registrado");
         }
 
     }
@@ -178,6 +178,7 @@ public interface Interfaz {
         else{
             System.out.println("Horario descartado");}
         }
+
     public static void mostrarBecas() {
         int i = 1;
         for (Beca beca: Beca.getBecas()){
@@ -226,7 +227,7 @@ public interface Interfaz {
                 if (opcion2 <= totalEstudiantes.size() && opcion2 >= 1) {
                     Estudiante seleccionado = totalEstudiantes.get(opcion2 - 1);
                     System.out.println("Estudiante seleccionado, nombre: " + seleccionado.getNombre() + " ID: "
-                            + seleccionado.getID());
+                            + seleccionado.getId());
                     matricularMateriaParte2(seleccionado);
                     salir = true;
                 } else {
@@ -472,7 +473,7 @@ public interface Interfaz {
         materiasInscritas.add(grupo.getMateria());
         grupo.agregarEstudiante(estudiante);
         grupo.getMateria().setCupos(grupo.getMateria().getCupos()-1);
-        grupo.setCupos(grupo.getCupos(-1));
+        grupo.setCupos(grupo.getCupos()-1);
         ArrayList<Grupo> gruposInscritos= new ArrayList<Grupo>(estudiante.getGrupos());
         gruposInscritos.add(grupo);
         estudiante.setGrupos(gruposInscritos);
@@ -550,15 +551,10 @@ public interface Interfaz {
     public static boolean verificarPw(Usuario usuario, String pw) {
 
         // verificar si la contraseña es correcta
-        int i = 1;
-        for (Beca beca: Beca.getBecas()){
-            String a = beca.getConvenio();
-            System.out.println(i +". "+ a + ".");
-            i += 1;
-            System.out.println("    Cupos disponibles: " + beca.getCupos()+".");
-            System.out.println("    Estrato maximo para acceder: " + beca.getEstratoMinimo()+".");
-            System.out.println("    Creditos inscritos requeridos: " + beca.getCreditosInscritosRequeridos()+".");
-
+        if (usuario.getPw().equals(pw)) {
+            return true;
+        } else {
+            return false;
         }
 
     }

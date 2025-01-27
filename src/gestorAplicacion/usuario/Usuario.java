@@ -3,7 +3,7 @@
 package gestorAplicacion.usuario;
 
 import java.util.ArrayList;
-import java.util.Serializable;
+import java.io.Serializable;
 
 import gestorAplicacion.administracion.Materia;
 
@@ -31,7 +31,7 @@ public abstract class Usuario implements Serializable{
         usuariosTotales.add(this);
     }
 
-    public abstract toString();
+    public abstract String toString();
 
     public static String mostrarUsuarios(){
         String retorno = "";
@@ -67,7 +67,7 @@ public abstract class Usuario implements Serializable{
 
     public void agregarMateria(String nombre, int codigo, String descripcion, int creditos, String facultad, ArrayList<Materia> prerrequisitos){
         Materia nuevaMateria = new Materia(nombre,codigo,descripcion,creditos,facultad,prerrequisitos);
-        Materia.getMateriaTotales().add(nuevaMateria);
+        Materia.getMateriasTotales().add(nuevaMateria);
     }   
 
     public String getTipo(){

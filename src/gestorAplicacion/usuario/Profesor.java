@@ -8,7 +8,7 @@ import gestorAplicacion.administracion.*;
 public class Profesor implements Serializable{
     private String nombre;
     private String facultad;
-    private String horario;
+    private Horario horario;
     private ArrayList<Materia> materiasDadas= new ArrayList<Materia>(10);
     private ArrayList<Grupo> grupos= new ArrayList<Grupo>();
     private static ArrayList<Profesor> profesores= new ArrayList<Profesor>();
@@ -49,10 +49,11 @@ public class Profesor implements Serializable{
             ArrayList<String> horLibre= grupos.get(indice).getHorario();
             this.horario.liberarHorario(horLibre);
             grupos.remove(indice);
+        }
     }
 
     public boolean daMateria(String nombre){
-        for(Matera materia:this.getMateriasDadas()){
+        for(Materia materia:this.getMateriasDadas()){
             if(materia.getNombre().equals(nombre)){
                 return true;
             }
@@ -65,7 +66,7 @@ public class Profesor implements Serializable{
         boolean bool=false;
         for(Profesor profesor:Profesor.getProfesores()){
             int chance=0;
-            int suerte=(int)(Math.random(*10+1));
+            int suerte=(int)(Math.random()*10+1);
 
             for(Grupo grupo:estudiante.getGruposVistos()){
                 if (grupo.getProfesor().getNombre().equals(profesor.getNombre())==true){
@@ -165,4 +166,4 @@ public Horario getHorario() {
 }
 
 }
-    }    
+        

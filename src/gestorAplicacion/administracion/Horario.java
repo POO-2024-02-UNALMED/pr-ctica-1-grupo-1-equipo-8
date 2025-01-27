@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Horario implements Serializable{
     private static final long serialVersionUID = 1L;
     private Grupo[][] horario = new Grupo[7][24];//7 dias de la semana y 24 horas del dia
-    private Arraylist<Grupo> grupoContenidos = new ArrayList<Grupo>()
-    private static Arraylist<Horario> horariosTotales = new ArrayList<Horario>();
+    private ArrayList<Grupo> grupoContenidos = new ArrayList<Grupo>();
+    private static ArrayList<Horario> horariosTotales = new ArrayList<Horario>();
 
     public Horario() {  //Constructor de la clase Horario
         Horario.horariosTotales.add(this);
@@ -79,7 +79,7 @@ public class Horario implements Serializable{
             int horaInicio = Integer.parseInt(clase.substring(2, 4));
             int horaFinal = Integer.parseInt(clase.substring(5, 7));
 
-            Grupo grupoEliminado=null
+            Grupo grupoEliminado=null;
 
             for (int hora = horaInicio; hora < horaFinal; hora++){
                 grupoEliminado = this.horario[dia][hora];
@@ -149,12 +149,12 @@ public class Horario implements Serializable{
 
             if (i < 9){
                 String horaConCero = "0" + i;
-                String horaSiguienteConCero = 0 + (i+1);
+                String horaSiguienteConCero = "0" + (i+1);
                 horario += "" + horaConCero + "-" + horaSiguienteConCero + "       ";
             }
 
             else if (i == 9){
-                horario += "09-10" + "       "
+                horario += "09-10" + "       ";
             }
 
             else{
