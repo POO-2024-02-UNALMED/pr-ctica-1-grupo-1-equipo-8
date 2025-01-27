@@ -3,7 +3,7 @@
 
 package gestorAplicacion.administracion;
 
-import java.util.Arraylist;
+import java.util.ArrayList;
 import java.io.Serializable;
 
 
