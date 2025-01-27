@@ -1,6 +1,6 @@
 package gestorAplicacion.administracion;
 import java.util.ArrayList;
-import gestorAplicacion.administracion.*;
+import gestorAplicacion.usuario.*;
 import java.io.Serializable;
 public class Materia implements Serializable {
     private static final long serialVersionUID=1L;
@@ -15,7 +15,7 @@ public class Materia implements Serializable {
     public static ArrayList<Materia> materiasTotales = new ArrayList<Materia>();
     private String abreviatura;
 
-    public Materia( String nombre, int codigo, String descripcion,int creditos,String facultad);{
+    public Materia( String nombre, int codigo, String descripcion,int creditos,String facultad){
         this.nombre=nombre;
         this.codigo=codigo;
         this.descripcion=descripcion;
