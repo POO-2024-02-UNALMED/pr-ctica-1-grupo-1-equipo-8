@@ -1,4 +1,4 @@
-package UiMain;
+package uiMain;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ import baseDatos.Serializador;
 import baseDatos.Deserializador;
 
 public class Main implements Interfaz{
-    public static void main(Stirng[] args){
+    public static void main(String[] args){
         Deserializador.deserializarListas();
         Scanner sc = new Scanner(System.in);
         Boolean continuar=true;
