@@ -1,6 +1,6 @@
 package gestorAplicacion.administracion;
 import java.util.ArrayList;
-import gestorAplicacion.administracion.*;
+import gestorAplicacion.usuario.*;
 import java.io.Serializable;
 public class Materia implements Serializable {
     private static final long serialVersionUID=1L;
