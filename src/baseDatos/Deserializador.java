@@ -1,21 +1,20 @@
 package baseDatos;
 
+import gestorAplicacion.administracion.Beca;
+import gestorAplicacion.administracion.Grupo;
+import gestorAplicacion.administracion.Horario;
+import gestorAplicacion.administracion.Materia;
+import gestorAplicacion.administracion.Salon;
+import gestorAplicacion.usuario.Coordinador;
+import gestorAplicacion.usuario.Estudiante;
+import gestorAplicacion.usuario.Profesor;
+import gestorAplicacion.usuario.Usuario;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-
-import gestorAplicacion.administracion.Grupo;
-import gestorAplicacion.administracion.Horario;
-import gestorAplicacion.administracion.Materia;
-import gestorAplicacion.administracion.Salon;
-import gestorAplicacion.administracion.Beca;
-import gestorAplicacion.usuario.Coordinador;
-import gestorAplicacion.usuario.Estudiante;
-import gestorAplicacion.usuario.Profesor;
-import gestorAplicacion.usuario.Usuario;
 
 public class Deserializador{
 
@@ -46,12 +45,12 @@ public class Deserializador{
         deserializar(Estudiante.getEstudiantes(), "Estudiantes");
         deserializar(Grupo.getGruposTotales(), "Grupos");
         deserializar(Horario.getHorariosTotales(), "Horarios");
-        deserializar(Materia.materiasTotales(), "Materias");
+        deserializar(Materia.materiasTotales, "Materias");
         deserializar(Coordinador.getCoordinadoresTotales(), "Coordinadores");
         deserializar(Salon.salones, "Salones");
         deserializar(Beca.getBecas(), "Becas");
         deserializar(Profesor.getProfesores(), "Profesores");
-        deserializar(Usuario.getUsuarios(), "Usuarios");
+        deserializar(Usuario.getUsuariosTotales(), "Usuarios");
 
     }
 }
