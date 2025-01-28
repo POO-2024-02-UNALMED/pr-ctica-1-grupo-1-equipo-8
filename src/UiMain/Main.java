@@ -19,7 +19,7 @@ public class Main implements Interfaz{
         Scanner scanner = new Scanner(System.in);
         Boolean continuar=true;
         Boolean logueado=false;
-        System.out.println("Bienvenido a este dolor de cabeza");
+        System.out.println("Bienvenido al Z.I.A");
 
         Usuario usuario = null;
         while(!logueado){
