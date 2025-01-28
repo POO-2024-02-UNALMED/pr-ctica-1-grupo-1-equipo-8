@@ -1,3 +1,16 @@
+/*
+ Autores:
+ -Lina Marcela Sánchez Morales
+ -Stiven Santiago Rosero Quemag
+ -Tomas Velásquez Eusse
+ -Sergio Mario Morales Martínez
+ -Jhoan Alexis Rúa García
+
+ Es el múdlo que define la clase para guardar el estado de todos los objetos en los archivos
+ de texto.
+
+ */
+
 package baseDatos;
 
 import gestorAplicacion.administracion.*;
@@ -34,6 +47,7 @@ public class Serializador{
         }
     }
 
+    //Guarda los objetos.
     public static void serializarListas(){
 
         serializar(Estudiante.getEstudiantes(), "Estudiantes");

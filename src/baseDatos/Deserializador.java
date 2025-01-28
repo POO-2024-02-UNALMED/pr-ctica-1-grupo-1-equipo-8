@@ -1,3 +1,14 @@
+/*
+ Autores:
+ -Lina Marcela Sánchez Morales
+ -Stiven Santiago Rosero Quemag
+ -Tomas Velásquez Eusse
+ -Sergio Mario Morales Martínez
+ -Jhoan Alexis Rúa García
+
+Módulo que define los métodos para transformar las secuencias de bytes de los archivos de texto, en 
+objetos para el correcto funcionamiento de la aplicación.
+ */
 package baseDatos;
 
 import gestorAplicacion.administracion.Beca;
@@ -40,6 +51,7 @@ public class Deserializador{
         }
     }
 
+    //Carga todos los objetos.
     public static void deserializarListas(){
 
         deserializar(Estudiante.getEstudiantes(), "Estudiantes");

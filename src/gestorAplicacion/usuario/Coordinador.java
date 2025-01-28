@@ -26,7 +26,7 @@ public class Coordinador extends Usuario implements Serializable {
 
     //Constructor de la clase Coordinador
     public Coordinador(String facultad, long id, String nombre, String pw) {
-        super(id, nombre, pw, facultad);
+        super(id, nombre, pw, facultad); //Constructor clase padre.
         super.setTipo("Coordinador");
         Coordinador.coordinadoresTotales.add(this); //Agregar el Coordinador a la lista de Coordinadores creados.
     }
@@ -92,45 +92,45 @@ public class Coordinador extends Usuario implements Serializable {
         int[] mPosibles = new int[materias.size()];
         int i = 0; // indice de materias
 
-        while (true) {
+        while (true) {//Recorremos cada materia y por grupo, verificamos que sus clases se acoplen al horario.
             ArrayList<String> pClases = materias.get(i).getGrupos().get(gPosible[i]).getHorario();
             if (horario.comprobarDisponibilidad(pClases)) {
-
+                //Si se acoplan las clases, ocupamos el horario.
                 horario.ocuparHorario(materias.get(i).getGrupos().get(gPosible[i]));
                 mPosibles[i] = 1;
                 i++;
-                if (i == materias.size()) {
+                if (i == materias.size()) {//Salimos si ya indagamos en todas las materias.
                     break;
                 }
 
-            } else {
-                gPosible[i]++;
+            } else {//Si el horario no es apto:
+                gPosible[i]++; //Pasamos al siguiente grupo
 
-                if (gPosible[i] == materias.get(i).getGrupos().size()) {
+                if (gPosible[i] == materias.get(i).getGrupos().size()) { //Si el grupo anterior era el último
                     i--;
-                    horario.liberarHorario(materias.get(i).getGrupos().get(gPosible[i]).getHorario());
-                    gPosible[i]++;
-                    gPosible[i + 1] = 0;
+                    horario.liberarHorario(materias.get(i).getGrupos().get(gPosible[i]).getHorario());//Liberamos el horario del grupo de la amteria anterior
+                    gPosible[i]++; //el grupo posible pasa a ser otro
+                    gPosible[i + 1] = 0; //El grupo de la materia que sigue vuelve a ser el 0.
 
-                    if (gPosible[i] == materias.get(i).getGrupos().size()) {
+                    if (gPosible[i] == materias.get(i).getGrupos().size()) {//Si no hay otro grupo que verificar
                         int m = 0;
                         for (int k : mPosibles) {
-                            if (k == 0) {
+                            if (k == 0) { //Aquí se obtiene la materia que provoca el conflicto
                                 materiaObstaculo = materias.get(m);
                                 ok = false;
                             } else {
-                                m++;
+                                m++; //Siguiente materia.
                             }
                         }
-                        break;
+                        break; //Salir del bucle.
                     }
                 }
 
             }
         }
-        resultado[0] = ok;
-        resultado[1] = horario;
-        resultado[2] = materiaObstaculo;
+        resultado[0] = ok; //Resultado operación
+        resultado[1] = horario; //Horario generado.
+        resultado[2] = materiaObstaculo; //Materia que provoca conflicto.
 
         return resultado;
     }

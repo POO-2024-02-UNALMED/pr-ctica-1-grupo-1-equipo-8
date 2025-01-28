@@ -7,7 +7,7 @@
  -Jhoan Alexis Rúa García
 
  El módulo agrupa toda la información para tratar tanto a estudiantes, profesores y coordinadores
- como usuarios del sistema.
+ como datos en el sistema, recordando que los únicos capaces de controlar el sistema son los coordinadores.
  */
 
 package gestorAplicacion.usuario;
@@ -19,7 +19,8 @@ import gestorAplicacion.administracion.Materia;
 
 
 //Es la clase abstracta que representa a los actores que hacen parte del sistema acádemico. Cada actor es:
-//estudiante, profesor o coordinador, pertenece a una facultad y cuenta con nombre e id.
+//estudiante, profesor o coordinador, pertenece a una facultad, tienen y cuenta con nombre e id. Los que tienen
+//contraseña son los coordinadores.
 public abstract class Usuario implements Serializable{
     private static final long serialVersionUID = 1L;
     protected long id;

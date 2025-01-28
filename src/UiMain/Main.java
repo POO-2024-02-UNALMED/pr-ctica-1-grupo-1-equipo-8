@@ -1,3 +1,14 @@
+/*
+ Autores:
+ -Lina Marcela Sánchez Morales
+ -Stiven Santiago Rosero Quemag
+ -Tomas Velásquez Eusse
+ -Sergio Mario Morales Martínez
+ -Jhoan Alexis Rúa García
+
+ Módulo principal de la aplicación, aquí está toda la lógica que permite al usuario manipular
+ el sistema académico siguiendo los pasos correctamente.
+ */
 package UiMain;
 
 import baseDatos.Deserializador;
@@ -11,183 +22,187 @@ import gestorAplicacion.usuario.Estudiante;
 import gestorAplicacion.usuario.Profesor;
 import gestorAplicacion.usuario.Usuario;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Scanner; //Clase para capturar la entrada del usuario.
 
+//La clase que contiene el método main, para la ejecución de la aplicación, están todas las opciones
+//para llevar a cabo las funciones del programa.
 public class Main implements Interfaz{
+
+    //Método main
     public static void main(String[] args){
-        Deserializador.deserializarListas();
+        Deserializador.deserializarListas(); //Se llama este método de clase de la clase Deserializador para convertir las secuencias de bytes en los archivos de texto a objetos.
         Scanner scanner = new Scanner(System.in);
         Boolean continuar=true;
         Boolean logueado=false;
-        System.out.println("Bienvenido al Z.I.A");
+        System.out.println("Bienvenido al Z.I.A"); //Mensaje de Bienvenida.
 
         Usuario usuario = null;
         while(!logueado){
             Scanner scanner2 = new Scanner(System.in);
-            System.out.println("\n Como desea ingresar?: \n1. Crear un nuevo usuario. \n2. Ingresar con un usuario existente.");
-            int opcion_log = scanner.nextInt();
+            System.out.println("\n Como desea ingresar?: \n1. Crear un nuevo usuario. \n2. Ingresar con un usuario existente."); //Se le pregunta al usuario cómo desea ingresar.
+            int opcion_log = scanner.nextInt(); //Se captura su entrada.
             scanner.nextLine();
-            if(opcion_log==1){
+            if(opcion_log==1){ //Si elige 1, procedemos con la creación de un nuevo usuario.
                 String nomb;
-        		boolean existe;
+        		boolean existe; //Nos ayuda a mantener al usuario en el bucle.
         		boolean salir = false;
         		do {
         			System.out.println("Ingrese su nombre completo:\nSi desea salir introduzca la palabra Salir");
-        			nomb = scanner2.nextLine();
+        			nomb = scanner2.nextLine(); //Capturamos su entrada.
         			if (nomb.equals("Salir")) {
-        				existe = false;
-        				salir = true;
+        				existe = false; //Para que salga del bucle do-while.
+        				salir = true; //Para salir de crear un nuevo usuario.
         			}
-        			else if (Interfaz.existenciaUsuario(nomb)) {
+        			else if (Interfaz.existenciaUsuario(nomb)) { //Usamos el método estático de la interfaz Interfaz.
         				System.out.println("Ya existe un usuario asociado a este nombre.");
-        				existe=true;
+        				existe=true; //Si ya hay un usuario con el nombre, se pide el nombre de nuevo.
         			}
         			else {
-        				existe=false;
+        				existe=false; //Si no hay problemas con el nombre, salimos del bucle.
         			}
         		}while (existe);
-        		if (salir){
+        		if (salir){  //Aquí salimos de crear un nuevo usuario.
         			continue;
         		}
         		String facul = null;
         		while(true) {
         			System.out.println("Seleccione la facultad a la que pertenece:");
-        			System.out.println(Coordinador.mostrarFacultades());
-        			int fac = scanner2.nextInt();
+        			System.out.println(Coordinador.mostrarFacultades()); //Método que muestra todas las facultades enumeradas.
+        			int fac = scanner2.nextInt();//Capturamos la entrada.
         			scanner2.nextLine();
-        			if(fac<=0||fac>Coordinador.getFacultades().length) {
-        				System.out.println("Valor invalido. Intente nuevamente");;
+        			if(fac<=0||fac>Coordinador.getFacultades().length) {  //Nos aseguramos que el usuario haga una entrada correcta.
+        				System.out.println("Valor invalido. Intente nuevamente");; //Mensaje de advertencia.
         			}
         			else {
-        				facul = Coordinador.getFacultades()[fac-1];
-        				break;
+        				facul = Coordinador.getFacultades()[fac-1]; //Tomamos la facultad si el usuario hace una entrada correcta.
+        				break; //Salir del bucle.
         			}
         		}
-        	
+                //Se pide la contraseña del nuevo usuario.
         		System.out.println("Ingrese su contrasena:\nSi desea salir introduzca la palabra Salir");
-        		String cont = scanner2.nextLine();
+        		String cont = scanner2.nextLine();//Capturamos la entrada.
         		if(cont.equals("Salir")) {
-        			continue;
+        			continue; //Salimos si así lo pide.
         		}
-        		long id = Interfaz.generarId();
-        		usuario = new Coordinador(facul,id,nomb,cont);
-        		System.out.println("Se ha creado un nuevo usuario a nombre de "+nomb+" con el id "+id+" asignado.\nRecuerde que este id sera con el que inicie sesion en este usuario de ahora en adelante");
+        		long id = Interfaz.generarId(); //Se genera el id para el nuevo usuario.
+        		usuario = new Coordinador(facul,id,nomb,cont); //Se crea el nuevo Coordinador, con facultad, id, nombre y contraseña.
+        		System.out.println("Se ha creado un nuevo usuario a nombre de "+nomb+" con el id "+id+" asignado.\nRecuerde que este id sera con el que inicie sesion en este usuario de ahora en adelante");//Mnesaje de confirmación
         		logueado=true;
             }
-            else if(opcion_log==2){
+            else if(opcion_log==2){ //Opción para entrar con un usuario existente.
                 Scanner scanner3 = new Scanner(System.in);
         		boolean intentando = true;
         		while(intentando) {
         			System.out.println("Ingrese su id de usuario:\nSi desea salir escriba el numero 0.");
-        			long id = scanner3.nextLong();
+        			long id = scanner3.nextLong(); //Se captura el id.
                     scanner3.nextLine();
         			if (id==0) {
-        				break;
+        				break;//Salir.
         			}
-        			else if (id<10000||id>99999) {
+        			else if (id<10000||id>99999) {//ids de 4 cifras o 6 cifras no permitidos.
         				System.out.println("Id invalido. Ingrese un id de 5 cifras.");
         			}
-        			else if (!Interfaz.existenciaId(id)){
+        			else if (!Interfaz.existenciaId(id)){ //Si el id no lo tiene ningún usuario ya creado, lo hacemos saber.
         				System.out.println("El id ingresado no corresponde a ningun usuario registrado en el sistema.");
         			}
-        			else if (Interfaz.encontrarUsuario(id).getTipo()=="Estudiante") {
+        			else if (Interfaz.encontrarUsuario(id).getTipo()=="Estudiante") { //Si el usuario ingresado es de un estudiante, informamos que solo ingresan coordinadores.
         				System.out.println("Error. Solo pueden ingresar coordinadores en la plataforma.");
         			}
         			else {
-        				Coordinador coordinadorE = (Coordinador) Interfaz.encontrarUsuario(id);
-        				boolean pwCorect = false;
+        				Coordinador coordinadorE = (Coordinador) Interfaz.encontrarUsuario(id);//Ubicamos al coordinador.
+        				boolean pwCorect = false; //Para verificar que el password sea correcto.
         				while(!pwCorect){
         					System.out.println("Ingrese la contrasena:");
-        					String cont = scanner3.nextLine();
-        					if(!Interfaz.verificarPw(coordinadorE,cont)) {
-        						while(true) {
+        					String cont = scanner3.nextLine(); //Capturamos contraseña.
+        					if(!Interfaz.verificarPw(coordinadorE,cont)) { //Se verifica la constraseña ingresada para este coordinador.
+        						while(true) {//Si es falsa entramos al bucle.
         							System.out.println("La contrasena es incorrecta.\nDesea intentar nuevamente?\n1. Si.\n2. No.");
         							int opCf = scanner3.nextInt();
                                     scanner3.nextLine();
         							if (opCf==1) {	
-        								break;
+        								break; //Para volver a ingresar la contraseña.
         							}
         							else if (opCf==2) {
-        								pwCorect=true;
+        								pwCorect=true; //Salir y no intentar la contraseña otra vez.
         								intentando = false;
         								break;
         								
         							}
-        							else {
+        							else {//Entrada invalida.
         								System.out.println("Valor invalido. Ingrese el numero de una de las opciones mencionadas.");
         							}
         						}
         					}
-        					else {
+        					else { //Si la contraseña es correcta damos el mensaje de bienvenida.
         						System.out.println("\nHola "+coordinadorE.getNombre()+" has ingresado exitosamente al sistema :D");
-        						usuario = coordinadorE;
+        						usuario = coordinadorE; //Asignamos a la variable usuario el coordinador que ingresa.
         						intentando=false;
         						logueado = true;				
-        						break;
+        						break;//Salimos de los tres bucles.
         					}
         				}
         			}
         		}
-            }
+            } //Opción no valida.
             else {
                 System.out.println("Opcion invalida");   
             }
         }
 
-        while(continuar){
+        while(continuar){ //ya con usuario, presentamos las funcionalidades del sistema.
             System.out.println("\nA continuacion encontrara los diferentes servicios ofrecidos por la plataforma.");
             System.out.println("Ingrese la opcion deseada: \n1. Matricular Materia.\n2. Generar Horario.\n3. Eliminar o agregar Materia / Grupo.\n4. Desmatricular Alumno. \n5. Busqueda y Postulacion de Becas. \n6. Salir y Guardar");
-            int opcion = scanner.nextInt();
+            int opcion = scanner.nextInt(); //Recibimos la elección del usuario.
             scanner.nextLine();
-            switch(opcion) {
+            switch(opcion) { //En función de lo que quiera el usuario, ejecutamos cierto código
             case 1:
                 System.out.println("Has seleccionado la opcion 1 (Matricular materia)");
-                Interfaz.matricularMateria();
-                break;
+                Interfaz.matricularMateria(); //Método estático de la interfaz Interfaz.
+                break; //Salir del switch.
             case 2:
                 System.out.println("\nHas seleccionado la opcion 2 (Generar Horario).");
-                System.out.println("Esta Opcion te permitira generar una horario segun unas materias dadas.");
+                System.out.println("Esta Opcion te permitira generar una horario según unas materias dadas.");
                 
                 boolean salir = true;
                 while(salir){
 
-                    
+                    //Elegir el modo de seleccionar las materias para generar el horario.
                     System.out.println("Elija como quiere seleccionar las materias: \n1.Ver la lista de materias. \n2.Buscar por criterio (Facultad - Creditos - Codigo). \n3.Salir");
                     int opt=scanner.nextInt();
                     scanner.nextLine();
                     
 
-                    // Ver la lista de materias
+                    // Ver la lista de materias.
                     if (opt==1){
-                        Interfaz.fusionImpresiones(Materia.getMateriasTotales());
+                        Interfaz.fusionImpresiones(Materia.getMateriasTotales()); //Método estático de la interfaz Interfaz.
                     }
     
                     // Ver lista pero con filtro
                     else if (opt ==2){
                         System.out.println("Por cual criterio quiere buscar: \n1. Facultad. \n2. Creditos. \n3. Codigo");
-                        int opt2=scanner.nextInt();
+                        int opt2=scanner.nextInt();//Capturar criterio.
                         scanner.nextLine();
                         
                         if (opt2==1){
                             System.out.println("Ingrese la facultad: ");
-                            String opt3=scanner.nextLine();
+                            String opt3=scanner.nextLine();//tomar facultad.
     
-                            Interfaz.fusionImpresiones(Interfaz.mostrarMateriasConFiltro(opt2, opt3));
+                            Interfaz.fusionImpresiones(Interfaz.mostrarMateriasConFiltro(opt2, opt3));//Se invoca el método solo con las materias que cumplen el filtro.
 
                             
                         }
                         else if (opt2 == 2){
                             System.out.println("Ingrese el numero de creditos: ");
-                            String opt3=scanner.nextLine();
+                            String opt3=scanner.nextLine(); //Capturamos
     
-                            Interfaz.fusionImpresiones(Interfaz.mostrarMateriasConFiltro(opt2, opt3));
+                            Interfaz.fusionImpresiones(Interfaz.mostrarMateriasConFiltro(opt2, opt3));//Se invoca el método solo con las materias que cumplen el filtro.
 
                         }
                         else if (opt2 == 3){
                             System.out.println("Ingrese el codigo o la parte del codigo a filtrar: ");
-                            String opt3=scanner.nextLine();
+                            String opt3=scanner.nextLine();//Capturamos
     
-                            Interfaz.fusionImpresiones(Interfaz.mostrarMateriasConFiltro(opt2, opt3));
+                            Interfaz.fusionImpresiones(Interfaz.mostrarMateriasConFiltro(opt2, opt3));//Se invoca el método solo con las materias que cumplen el filtro.
 
                         }
                     
@@ -196,7 +211,7 @@ public class Main implements Interfaz{
                         salir = false;
                     }
                 }
-                break;
+                break;//Salir del switch.
             case 3:
                 System.out.println("Has seleccionado la opcion 3 (Eliminar o agregar Materia / Grupo).");
                 System.out.println("Ingrese la opcion que se ajuste a su busqueda:\n1.Agregar Materia.       2.Eliminar Materia.\n3.Agregar Grupo.         4.Eliminar Grupo.\n5.Salir.");
@@ -926,7 +941,7 @@ public class Main implements Interfaz{
                 break;
 
             case 6:
-                Serializador.serializarListas();
+                Serializador.serializarListas(); //Guardar todos los objetos antes de que la aplicación cierre.
                 System.out.println("Has salido del programa");
                 continuar = false;
                 break;
