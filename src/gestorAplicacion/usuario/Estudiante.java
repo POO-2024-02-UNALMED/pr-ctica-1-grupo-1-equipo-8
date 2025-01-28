@@ -1,10 +1,23 @@
-//Jhoan Alexis
+/*
+ Autores:
+ -Lina Marcela Sánchez Morales
+ -Stiven Santiago Rosero Quemag
+ -Tomas Velásquez Eusse
+ -Sergio Mario Morales Martínez
+ -Jhoan Alexis Rúa García
+
+ En este módulo se agregan los aspectos pertinentes para trabajar con estudiantes. Se reúnen las
+ características necesarias para identificar y adelantar trámites en el sistema académico con el alumno.
+ */
 package gestorAplicacion.usuario;
 
 import java.util.ArrayList;
 import java.io.Serializable;
 import gestorAplicacion.administracion.*;
 
+//Esta clase modela a los principales actores del sistema académico, un estudiante hace parte de un programa,
+//tiene un progreso académico, un sueldo, un estrato, un valor de matrícula, notas promedio, créditos, materias, grupos, horario y si es
+//lo suficientemente apto, una beca.
 public class Estudiante extends Usuario implements Serializable{
     private static final long serialVersionUID = 1L;
     private String programa;
@@ -25,32 +38,35 @@ public class Estudiante extends Usuario implements Serializable{
     private static ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
     private final static int creditosParaGraduarse = 120;
 
+    //Constructor clase Estudiante.
     public Estudiante(long id, String nombre, String programa, int semestre, String facultad, int estrato, int sueldo){
-        super(id, nombre, facultad);
-        super.setTipo("Estudiante");
+        super(id, nombre, facultad); //Llamada al constructor de la clase Usuario.
+        super.setTipo("Estudiante"); //Método heredado.
         this.programa = programa;
         this.semestre = semestre;
-        this.materias = new ArrayList<Materia>();
-        this.grupos = new ArrayList<Grupo>();
+        this.materias = new ArrayList<Materia>(); //Lista de materias.
+        this.grupos = new ArrayList<Grupo>(); //Lista de grupos.
         this.estrato = estrato;
         this.sueldo = sueldo;
         this.valorMatricula = 1234567 * estrato;
-        this.horario = new Horario();
-        Estudiante.estudiantes.add(this);
+        this.horario = new Horario(); //Objeto Horario para representar el horario del estudiante.
+        Estudiante.estudiantes.add(this); //Agregar el estudiante a la lista de estudiantes creados.
 
     }
 
+    //Constructor sobrecargado que recibe materias y los grupos vistos.
     public Estudiante(long id, String nombre, String programa, int semestre, String facultad, int estrato, int sueldo, ArrayList<Materia> materias, ArrayList<Grupo> gruposVistos){
         this(id, nombre, programa, semestre, facultad, estrato, sueldo);
         this.materias = materias;
         this.gruposVistos = gruposVistos;
     }
 
-
+    //Método que define lo mostrado cuando se imprime un objeto Estudiante.
     public String toString(){
         return "Nombre: " + this.nombre + " Documento: " + this.id;
     }
 
+    //Retorna String con las materias que cursa el estudiante, con el grupo del que hace parte.
     public String mostrarMaterias(){
         String retorno = "";
         int posicion = 1;
@@ -60,6 +76,8 @@ public class Estudiante extends Usuario implements Serializable{
         return retorno;
     }
 
+    //Método de clase que busca a un estudiante por nombre y código, retorna su posición la lista de
+    //estudiantes, -1 si no es encontrado.
     public static int buscarEstudiante(String nombre, long id){
         for (int i = 0; i < estudiantes.size() ; i++){
             if(estudiantes.get(i).getNombre().equals(nombre) && estudiantes.get(i).getId() == id){
@@ -69,16 +87,20 @@ public class Estudiante extends Usuario implements Serializable{
         return -1;
     }
 
+    //Método que elimina una materia y resta los créditos de la materia al estudiante.
     public void eliminarMateria(Materia materia){
         this.materias.remove(materia);
         this.creditos -= materia.getCreditos();
     }
 
+
+    //Elimina la materia y el grupo de la materia.
     public void eliminarGrupo(Grupo grupo){
         this.grupos.remove(grupo);
         this.eliminarMateria(grupo.getMateria());
     }
 
+    //Método para que el estudiante pague su matricula desde su sueldo.
     public boolean pagarMatricula(){
         if (this.sueldo >= this.valorMatricula){
             this.sueldo -= this.valorMatricula;
@@ -90,6 +112,7 @@ public class Estudiante extends Usuario implements Serializable{
         return false;
     }
 
+    //Calcula el promedio del estudiante con su lista de notas y lo asigna al atribuot promedio.
     private void calcularPromedio(){
         double promedio = 0;
 
@@ -101,6 +124,8 @@ public class Estudiante extends Usuario implements Serializable{
         this.promedio = promedio;
     }
 
+    //Este método calcula el avance del estudiante. Para ello para cada grupo visto suma los créditos
+    // y usa el atributo estático creditosParaGraduarse.
     public void calcularAvance(){
         
         double creditosVistos = 0;
@@ -112,11 +137,14 @@ public class Estudiante extends Usuario implements Serializable{
         this.avance = (creditosVistos *100.0)/creditosParaGraduarse;
     }
 
+    //Método que agrega una nota a la lista de notas, luego actualiza el promedio.
     public void agregarNota(double nota){
         this.notas.add(nota);
         this.calcularPromedio();
     }
 
+
+    //Método estático que devuelve un String con todos los estudiantes creados.
     public static String mostrarEstudiantes(){
         String estudiantes ="";
         int i = 1;
@@ -126,6 +154,7 @@ public class Estudiante extends Usuario implements Serializable{
         return estudiantes.substring(1, estudiantes.length());
     }
 
+    //Método que busca una materia por nombre y la retorna si la encuentra.
     public Materia buscarMateriaPorNombre(String nombre){
         for (Materia materia : this.materias){
             if (materia.getNombre().equals(nombre)){
@@ -135,6 +164,8 @@ public class Estudiante extends Usuario implements Serializable{
         return null;
     }
 
+    //Busca la materia por nombre y código pero en las materias inscritas por el alumno, true si la encuentra
+    // y false si no es encontrada.
     public boolean buscarMateriaEnInscritas(String nombre, int codigo){
         for (Materia materia : this.materias){
             if (materia.getNombre().equals(nombre) && materia.getCodigo()==codigo){
@@ -144,14 +175,14 @@ public class Estudiante extends Usuario implements Serializable{
         return false;
     }
 
-    // Todas las materias
+    // Método que desmatricula al estudiante de los grupos y materias que ve en el semestre.
     public void desmatricularMaterias(){
         ArrayList<Grupo> gruposEliminar = new ArrayList<>();
         this.setMaterias(new ArrayList<Materia>());
         for(Grupo grupoE: this.grupos){
             Grupo grupo = Grupo.buscarGrupo(grupoE.getMateria(), grupoE);
-            grupo.getMateria().setCupos(grupo.getMateria().getCupos()+1);
-            this.setCreditos(this.getCreditos()-grupo.getMateria().getCreditos());
+            grupo.getMateria().setCupos(grupo.getMateria().getCupos()+1); //Sumar cupo del estudiante
+            this.setCreditos(this.getCreditos()-grupo.getMateria().getCreditos()); //Restar créditos al estudiante.
             gruposEliminar.add(grupo);
         }
         int num = gruposEliminar.size();
@@ -160,6 +191,7 @@ public class Estudiante extends Usuario implements Serializable{
         }
     }
 
+    //Métodos getters y setters
     public String getPrograma(){
         return this.programa;
     }

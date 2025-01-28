@@ -1,17 +1,29 @@
-//Lina
+/*
+ Autores:
+ -Lina Marcela Sánchez Morales
+ -Stiven Santiago Rosero Quemag
+ -Tomas Velásquez Eusse
+ -Sergio Mario Morales Martínez
+ -Jhoan Alexis Rúa García
 
+ En este módulo se define la clase Beca, incluye los atributos y métodos que permitan crear y gestionar
+ una beca dentro del sistema académico.
+
+ */
 
 package gestorAplicacion.administracion;
-
 import java.util.ArrayList;
 import java.io.Serializable;
 
-
+/* 
+Esta clase representa las becas que se encuentran activas para auxiliar económicamente a un determinado número
+de estudiantes, para cada una de estas becas los postulados deben cumplir con varios requisitos: entre ellos 
+créditos inscritos, estrato mínímo, promedio, avance y si es necesario, una recomendación.*/
 public class Beca implements Serializable{
     
-    //atributo que permite la serializacion de objetos de esta clase
-    private static final long serialversionUID=1L;
-    //atributos de la clase
+    //Atributo que permite la serialización de objetos de esta clase
+    private static final long serialversionUID = 1L;
+    //Atributos de instancia de la clase
     private int cupos;
     private String convenio;
     private int creditosInscritosRequeridos;
@@ -20,13 +32,12 @@ public class Beca implements Serializable{
     private double promedioRequerido;
     private double avanceRequerido;
     private boolean necesitaRecomendacion;
+    //Lista objetos tipo Beca
     private static ArrayList<Beca> becas= new ArrayList<Beca>();
-    //lista objetos tipo Beca
     
 
 
-    //constructor
-
+    //Constructor de la clase beca
     public Beca(int cupos, String convenio, double promedioRequerido, double avanceRequerido, int estratoMinimo,
     int creditosInscritosRequeridos, int ayudaEconomica, boolean necesitaRecomendacion){
         this.cupos= cupos;
@@ -38,10 +49,10 @@ public class Beca implements Serializable{
         this.avanceRequerido=avanceRequerido;
         this.necesitaRecomendacion=necesitaRecomendacion;
         becas.add(this);
-        //agrega el objeto a becas
+        //Agrega el objeto a becas
     }   
 
-    //metodos
+    //Métodos
     //set y get
      
     public int getCupos(){
@@ -108,16 +119,16 @@ public class Beca implements Serializable{
         this.necesitaRecomendacion=necesitaRecomendacion;
     }    
 
-    //metodo para obtener copia de la lista de becas
+    //Método para obtener copia de la lista de becas
     public static ArrayList<Beca> getBecas(){
         return new ArrayList<>(becas);
     }    
-    //copia de la lista Beca
+    //Copia de la lista Beca
 
-    //metodo para eliminar una beca de la lista
+    //Método para eliminar una beca de la lista
     public static void eliminarBeca(Beca beca){
             becas.remove(beca);
        
     }
-    //elimina objeto beca pasado como argumento si se encuentra en la lista
+    //Elimina el objeto beca pasado como argumento si se encuentra en la lista
 }

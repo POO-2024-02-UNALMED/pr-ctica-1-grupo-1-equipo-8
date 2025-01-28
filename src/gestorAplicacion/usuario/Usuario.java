@@ -1,4 +1,14 @@
-// Tomas Velasquez //
+/*
+ Autores:
+ -Lina Marcela Sánchez Morales
+ -Stiven Santiago Rosero Quemag
+ -Tomas Velásquez Eusse
+ -Sergio Mario Morales Martínez
+ -Jhoan Alexis Rúa García
+
+ El módulo agrupa toda la información para tratar tanto a estudiantes, profesores y coordinadores
+ como usuarios del sistema.
+ */
 
 package gestorAplicacion.usuario;
 
@@ -7,6 +17,9 @@ import java.io.Serializable;
 
 import gestorAplicacion.administracion.Materia;
 
+
+//Es la clase abstracta que representa a los actores que hacen parte del sistema acádemico. Cada actor es:
+//estudiante, profesor o coordinador, pertenece a una facultad y cuenta con nombre e id.
 public abstract class Usuario implements Serializable{
     private static final long serialVersionUID = 1L;
     protected long id;
@@ -16,6 +29,7 @@ public abstract class Usuario implements Serializable{
     protected String facultad;
     protected static ArrayList<Usuario> usuariosTotales = new ArrayList<Usuario>();
 
+    //Constructor clase Usuario.
     public Usuario (long id, String nombre, String facultad){
         this.id = id;
         this.nombre = nombre;
@@ -23,16 +37,19 @@ public abstract class Usuario implements Serializable{
         usuariosTotales.add(this);
     }
 
+    //Constructor sobrecargado.
     public Usuario (long id, String nombre, String pw, String facultad){
         this.id = id;
         this.nombre = nombre;
         this.pw = pw;
         this.facultad = facultad;
-        usuariosTotales.add(this);
+        usuariosTotales.add(this); //Agregar el objeto usuario a la lista de usuarios creados.
     }
 
-    public abstract String toString();
+    public abstract String toString(); //Método abstracto.
 
+
+    //Retorna un String con todos los usuarios creados, indicando nombre e id.
     public static String mostrarUsuarios(){
         String retorno = "";
     	int i = 1;
@@ -42,6 +59,9 @@ public abstract class Usuario implements Serializable{
     	return retorno;
     }
 
+
+    //Método que comprueba que el usuario y otro usuario pasado como parámetro, compartan facultad.
+    //True si ocurre esto, false si no ocurre.
     public boolean comprobacionFacultad(Usuario usuario){
         String facultad1=this.getFacultad().toLowerCase();
         String facultad2=usuario.getFacultad().toLowerCase();
@@ -51,6 +71,8 @@ public abstract class Usuario implements Serializable{
         return false;
     }
 
+
+    //Método que desmatricula a un usuario del sistema.
     public void desmatricularDelSistema(Usuario usuario){
 
         for (Usuario u: Usuario.getUsuariosTotales()){
@@ -61,14 +83,20 @@ public abstract class Usuario implements Serializable{
         }
     }
 
+    //Método que elimina una materia de las materias totales.
     public void eliminarMateria(Materia materia){
         Materia.getMateriasTotales().remove(materia);
     }
 
+
+    //Método que agrega una nueva materia.
     public void agregarMateria(String nombre, int codigo, String descripcion, int creditos, String facultad, ArrayList<Materia> prerrequisitos){
         Materia nuevaMateria = new Materia(nombre,codigo,descripcion,creditos,facultad,prerrequisitos);
         Materia.getMateriasTotales().add(nuevaMateria);
-    }   
+    }  
+    
+    
+    //Métodos getters y setters.
 
     public String getTipo(){
         return tipo;

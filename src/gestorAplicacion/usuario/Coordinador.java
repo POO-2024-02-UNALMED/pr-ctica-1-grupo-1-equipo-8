@@ -1,10 +1,22 @@
-//Sergio 
+/*
+ Autores:
+ -Lina Marcela Sánchez Morales
+ -Stiven Santiago Rosero Quemag
+ -Tomas Velásquez Eusse
+ -Sergio Mario Morales Martínez
+ -Jhoan Alexis Rúa García
+
+ En este módulo se incluyen los métodos que involucran el proceso de un coordinador académico, como matricular
+ y desmatricular alumnos del sistema, crear horarios, evaluar posibles becados y agregar o eliminar materias.
+
+ */
 package gestorAplicacion.usuario;
 
 import java.util.ArrayList;
 import gestorAplicacion.administracion.*;
 import java.io.Serializable;
 
+//Es la clase encargada de gestionar los procesos académicos tanto de estudiantes como de profesores.
 public class Coordinador extends Usuario implements Serializable {
     private final static int limitesCreditos = 20;
     private static final long serialVersionUID = 1L;
@@ -12,13 +24,15 @@ public class Coordinador extends Usuario implements Serializable {
     private static String[] facultades = { "Facultad de arquitectura", "Facultad de ciencias",
             "Facultad de ciencias agrarias", "Facultad de ciencias humanas y economicas", "Facultad de minas", "Sede" };
 
+    //Constructor de la clase Coordinador
     public Coordinador(String facultad, long id, String nombre, String pw) {
         super(id, nombre, pw, facultad);
         super.setTipo("Coordinador");
-        Coordinador.coordinadoresTotales.add(this);
+        Coordinador.coordinadoresTotales.add(this); //Agregar el Coordinador a la lista de Coordinadores creados.
     }
 
-    // Desmatricula a el estudiante de un grupo
+    // Desmatricula al estudiante del grupo, pero antes verifica si de verdad el estudiante está en el grupo.
+    //Retorna un mensaje si desmatricula al alumno, o si no lo hace.
     public String desmatricular(Estudiante estudiante, Grupo grupo) {
 
         boolean estaMatriculado = grupo.existenciaEstudiante(estudiante);
@@ -31,6 +45,7 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
+    //Este método va por grupos, desvincula a todos los profesores y desmatricula a todos los estudiantes.
     public void resturarMateria(Materia materia) {
         for (int i = 0; i < materia.getGrupos().size(); i++) {
             Grupo puntero_Grupo = materia.getGrupos().get(i);
@@ -44,6 +59,7 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
+     //Este método elimina a un estudiante de la lista de estudiantes y usuarios.
     public void desmatricularDelSistema(Usuario estudiante) {
         Estudiante e1 = null;
         for (Estudiante e : Estudiante.getEstudiantes()) {
@@ -64,6 +80,7 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
+    //Método que crea un horario con las materias pasadas.
     public static Object[] crearHorario(ArrayList<Materia> materias) {
         Object[] resultado = new Object[3];
 
@@ -118,6 +135,7 @@ public class Coordinador extends Usuario implements Serializable {
         return resultado;
     }
 
+    //Método que elimina una materia.
     public void eliminarMateria(Materia materia) {
         if (Materia.getMateriasTotales().contains(materia)) {
             Materia.getMateriasTotales().remove(materia);
@@ -126,6 +144,7 @@ public class Coordinador extends Usuario implements Serializable {
 
     }
 
+    //Método que agrega una materia, siempre y cuando no exista otra materia con el mismo nombre.
     public void agregarMateria(String nombre, int codigo, String descripcion, int creditos, String facultad,
             ArrayList<Materia> prerrequisitos) {
         ArrayList<String> nombreMaterias = new ArrayList<String>();
@@ -137,6 +156,7 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
+    //Método que verifica que un estudiante sea candidato a una beca. true si lo es, false de lo contrario.
     public boolean candidatoABeca(Estudiante estudiante, Beca tipoDeBeca) {
         if (tipoDeBeca.getCupos() > 0) {
             if ((estudiante.getPromedio() >= tipoDeBeca.getPromedioRequerido())
@@ -159,6 +179,7 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
+    //String que muestra todas las facultades.
     public static String mostrarFacultades() {
         String retorno = "";
         int i = 1;
@@ -167,7 +188,7 @@ public class Coordinador extends Usuario implements Serializable {
         }
         return retorno;
     }
-
+    //Método que define lo mostrado cuando se imprime un objeto Coordinador.
     public String toString() {
         return "Nombre: " + getNombre() + "\nDocumento: " + getId();
     }
