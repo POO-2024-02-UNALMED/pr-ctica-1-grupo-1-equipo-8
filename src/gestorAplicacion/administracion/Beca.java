@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Beca implements Serializable{
     
     //atributo que permite la serializacion de objetos de esta clase
-    private static final long serialversionUID=1L;
+    private static final long serialVersionUID=1L;
     //atributos de la clase
     private int cupos;
     private String convenio;
