@@ -21,9 +21,9 @@ de estudiantes, para cada una de estas becas los postulados deben cumplir con va
 créditos inscritos, estrato mínímo, promedio, avance y si es necesario, una recomendación.*/
 public class Beca implements Serializable{
     
-    //Atributo que permite la serialización de objetos de esta clase
-    private static final long serialversionUID = 1L;
-    //Atributos de instancia de la clase
+    //atributo que permite la serializacion de objetos de esta clase
+    private static final long serialVersionUID=1L;
+    //atributos de la clase
     private int cupos;
     private String convenio;
     private int creditosInscritosRequeridos;

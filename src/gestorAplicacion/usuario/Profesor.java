@@ -26,7 +26,7 @@ public class Profesor implements Serializable{
     private ArrayList<Materia> materiasDadas= new ArrayList<Materia>(10);
     private ArrayList<Grupo> grupos= new ArrayList<Grupo>();
     private static ArrayList<Profesor> profesores= new ArrayList<Profesor>();
-    private static final long serialversionUID= 1L;
+    private static final long serialVersionUID= 1L;
 
     //Constructor de la clase Profesor
     public Profesor(String nombre, String facultad, Horario horario, ArrayList<Materia> materiasDadas, ArrayList<Grupo> grupos){
