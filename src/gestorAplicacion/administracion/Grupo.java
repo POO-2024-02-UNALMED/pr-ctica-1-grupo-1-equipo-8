@@ -16,6 +16,7 @@ public class Grupo implements Serializable {
 	private ArrayList<Estudiante> estudiantes;
 	private static ArrayList<Grupo> gruposTotales = new ArrayList<Grupo>();
 
+	// Constructores de la clase Grupo
 	public Grupo(Materia materia, int numero, Profesor profesor, ArrayList<String> horario, int cupos, Salon salon) {
 		this.materia = materia;
 		this.numero = numero;
@@ -34,12 +35,16 @@ public class Grupo implements Serializable {
 		Grupo.gruposTotales.add(this);
 	}
 
+	// Metodos
+
+	// metodo que muestra la informacion de un grupo
 	public String mostrarInformacionGrupo() {
 		String retorno = "Número del grupo: " + this.numero + ", Profesor: " + this.profesor + ", Horario: "
 				+ this.horario + ", Cupos: " + this.cupos + ", Salón: " + this.salon;
 		return retorno;
 	}
 
+	// metodo que verifica si un estudiante esta matriculado en un grupo
 	public boolean existenciaEstudiante(Estudiante estudiante) {
 		for (int j = 0; j < this.estudiantes.size(); j++) {
 			if (this.estudiantes.get(j).getId() == estudiante.getId()) {
@@ -49,6 +54,7 @@ public class Grupo implements Serializable {
 		return false;
 	}
 
+	// metodo que elimina un estudiante de un grupo
 	public void eliminarEstudiante(Estudiante estudiante) {
 		int indice = -1;
 		for (int i = 0; i < this.estudiantes.size(); i++) {
@@ -57,6 +63,7 @@ public class Grupo implements Serializable {
 				this.cupos++;
 				estudiante.eliminarGrupo(this);
 				break;
+				// Se elimina al estudiante del grupo y se le elimina el grupo al estudiante
 			}
 		}
 		if (indice != -1) {
@@ -64,6 +71,7 @@ public class Grupo implements Serializable {
 		}
 	}
 
+	// metodo que busca un grupo
 	public static Grupo buscarGrupo(Materia materiaE, Grupo grupoE) {
 		int indicei = -1;
 		int indicej = -1;
@@ -81,13 +89,16 @@ public class Grupo implements Serializable {
 			}
 		}
 		return Materia.getMateriasTotales().get(indicei).getGrupos().get(indicej);
+		// Regresa el grupo de acuerdo a los indices encontrados
 	}
 
+	// metodo que agrega un estudiante a un grupo
 	public void agregarEstudiante(Estudiante estudiante) {
 		this.estudiantes.add(estudiante);
 		this.cupos--;
 	}
 
+	// Getters y Setters
 	public int getNumero() {
 		return this.numero;
 	}

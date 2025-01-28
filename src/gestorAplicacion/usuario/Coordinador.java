@@ -12,6 +12,7 @@ public class Coordinador extends Usuario implements Serializable {
     private static String[] facultades = { "Facultad de arquitectura", "Facultad de ciencias",
             "Facultad de ciencias agrarias", "Facultad de ciencias humanas y economicas", "Facultad de minas", "Sede" };
 
+    // Constructor de la clase Coordinador
     public Coordinador(String facultad, long id, String nombre, String pw) {
         super(id, nombre, pw, facultad);
         super.setTipo("Coordinador");
@@ -31,40 +32,49 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
+    // Restaura la materia a su estado original
     public void resturarMateria(Materia materia) {
         for (int i = 0; i < materia.getGrupos().size(); i++) {
             Grupo puntero_Grupo = materia.getGrupos().get(i);
             puntero_Grupo.getProfesor().desvincularGrupo(puntero_Grupo);
-
+            //
             for (int j = 0; j < puntero_Grupo.getEstudiantes().size(); j++) {
                 Estudiante puntero_Estudiante = puntero_Grupo.getEstudiantes().get(j);
                 this.desmatricular(puntero_Estudiante, puntero_Grupo);
-                // Dentro de este metodo se llama al metodo desmatricular
+
             }
         }
     }
 
+    // Desmatricula a el estudiante del sistema
     public void desmatricularDelSistema(Usuario estudiante) {
         Estudiante e1 = null;
         for (Estudiante e : Estudiante.getEstudiantes()) {
-            if (e == (Estudiante) estudiante) {
-                e1 = e;
-            }
+            if (e == (Estudiante) estudiante) { // Se hace casting del parametro de tipo Usuario a tipo Estudiante
+                e1 = e; // Se guarda el estudiante en una variable auxiliar
+            } // Caso de especializacion de la clase Usuario
         }
         if (e1 != null) {
             Estudiante.getEstudiantes().remove(e1);
+            // Valida si se encontro al estudiante en la lista y lo remueve
         }
         for (Usuario usuario : Usuario.getUsuariosTotales()) {
             if (usuario instanceof Estudiante) {
-                if (((Estudiante) usuario).equals(estudiante)) {
+                if (((Estudiante) usuario).equals(estudiante)) { // Especializacion del parametro de tipo Usuario
                     Usuario.getUsuariosTotales().remove(usuario);
                     break;
+                    // desmatricula al estudiante del sistema
                 }
             }
         }
     }
 
     public static Object[] crearHorario(ArrayList<Materia> materias) {
+        // Recibe un arraylist de materias sobre las cuales se quiere crear un horario
+        // Retorna un array de 3 elementos el cual contiene: un booleano que indica si
+        // se pudo crear el horario, el horario creado y la materia que impide la
+        // creacion del horario
+
         Object[] resultado = new Object[3];
 
         Horario horario = new Horario();
@@ -85,7 +95,7 @@ public class Coordinador extends Usuario implements Serializable {
                 if (i == materias.size()) {
                     break;
                 }
-
+                // Se verifica si se puede ocupar el horario de la materia
             } else {
                 gPosible[i]++;
 
@@ -104,20 +114,22 @@ public class Coordinador extends Usuario implements Serializable {
                             } else {
                                 m++;
                             }
-                        }
+                        } // Se verifica si se puede ocupar el horario de la materia
                         break;
                     }
                 }
 
             }
         }
-        resultado[0] = ok;
-        resultado[1] = horario;
-        resultado[2] = materiaObstaculo;
+        resultado[0] = ok; // Indica si se pudo crear el horario
+        resultado[1] = horario; // Horario creado
+        resultado[2] = materiaObstaculo; // Materia que impide la creacion del horario
 
         return resultado;
     }
 
+    // En caso de existir, eliminara la materia y desmatriculara a los estudiantes
+    // de la misma, y a los profesores de los grupos
     public void eliminarMateria(Materia materia) {
         if (Materia.getMateriasTotales().contains(materia)) {
             Materia.getMateriasTotales().remove(materia);
@@ -126,6 +138,8 @@ public class Coordinador extends Usuario implements Serializable {
 
     }
 
+    // Recibe los datos de una materia. En caso de no existir previamente en la
+    // lista de materias totales la agrega a esta.
     public void agregarMateria(String nombre, int codigo, String descripcion, int creditos, String facultad,
             ArrayList<Materia> prerrequisitos) {
         ArrayList<String> nombreMaterias = new ArrayList<String>();
@@ -137,6 +151,8 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
+    // Recibe un estudiante y un tipo de beca. Retorna un booleano que indica si el
+    // estudiante es candidato a la beca o no
     public boolean candidatoABeca(Estudiante estudiante, Beca tipoDeBeca) {
         if (tipoDeBeca.getCupos() > 0) {
             if ((estudiante.getPromedio() >= tipoDeBeca.getPromedioRequerido())
@@ -159,7 +175,7 @@ public class Coordinador extends Usuario implements Serializable {
         }
     }
 
-    public static String mostrarFacultades() {
+    public static String mostrarFacultades() { // Metodo que muestra las facultades
         String retorno = "";
         int i = 1;
         for (String facultad : facultades) {
